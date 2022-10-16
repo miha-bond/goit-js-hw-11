@@ -1,0 +1,53 @@
+.gallery {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: -30px;
+  margin-bottom: 20px;
+  margin-left: -30px;
+}
+.photo-card {
+  flex-basis: calc((100% - 120px) / 4);
+  margin-left: 30px;
+  margin-top: 30px;
+  height: 330px;
+}
+.photo-card__img {
+  width: 350px;
+  height: 250px;
+  max-width: unset;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.info {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  width: 350px;
+  height: 70px;
+  background-color: black;
+  border-radius: 12px;
+}
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-content: center;
+}
+.info-item__title {
+  font-family: 'Comfortaa', cursive;
+  color: wheat;
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+.info-item__valeu {
+  font-family: 'Comfortaa', cursive;
+  color: wheat;
+  font-size: 17px;
+  line-height: 1.5;
+  font-weight: 300;
+}

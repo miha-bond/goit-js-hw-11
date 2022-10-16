@@ -4,22 +4,39 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="./css/style.css" />
+    <title>Search images...</title>
+    <link rel="stylesheet" href="./scss/index.scss" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <form class="search-form" id="search-form">
-      <input
-        type="text"
-        name="searchQuery"
-        autocomplete="off"
-        placeholder="Search images..."
-      />
-      <button type="submit">Search</button>
-    </form>
-    <div class="gallery">
-      <!-- Картки зображень -->
-    </div>
+    <header class="header">
+      <section class="section section__header">
+        <div class="container">
+          <form class="search-form js-search-form" id="search-form">
+            <input
+              type="text"
+              name="query"
+              autocomplete="off"
+              placeholder="Search images..."
+            />
+            <button class="js-search-btn" type="submit">Search</button>
+          </form>
+        </div>
+      </section>
+    </header>
+    <section class="section">
+      <div class="container">
+        <div class="gallery js-gallery"></div>
+      </div>
+    </section>
+    <footer>
+      <button type="button" class="load-more js-more">Load more</button>
+    </footer>
     <script type="module" src="./index.js"></script>
   </body>
 </html>
