@@ -7,27 +7,29 @@
   margin-left: -30px;
 }
 .photo-card {
-  flex-basis: calc((100% - 120px) / 4);
-  margin-left: 30px;
-  margin-top: 30px;
   height: 330px;
+  flex-basis: calc(25% - 35px);
+  margin-top: 60px;
+  margin-left: 35px;
 }
 .photo-card__img {
   width: 350px;
-  height: 250px;
+  height: 80%;
   max-width: unset;
   object-fit: cover;
+  border: 2px solid black;
   border-radius: 12px;
 }
 .info {
   display: flex;
   justify-content: space-around;
   align-items: center;
-
   width: 350px;
   height: 70px;
-  background-color: black;
+  background-color: #000;
+  border: none;
   border-radius: 12px;
+  border: 2px solid #000;
 }
 .info-item {
   display: flex;
@@ -36,7 +38,12 @@
   justify-content: center;
   flex-wrap: nowrap;
   align-content: center;
+  margin-right: 4px;
 }
+.info-item:last-child {
+  margin-right: 0;
+}
+
 .info-item__title {
   font-family: 'Comfortaa', cursive;
   color: wheat;
