@@ -11,6 +11,7 @@
   flex-basis: calc(25% - 35px);
   margin-top: 60px;
   margin-left: 35px;
+  text-decoration: none;
 }
 .photo-card__img {
   width: 350px;
@@ -19,6 +20,11 @@
   object-fit: cover;
   border: 2px solid black;
   border-radius: 12px;
+  transition: transform 0.15s linear;
+}
+.photo-card__img:hover {
+  transform: scale(1.03);
+  cursor: zoom-in;
 }
 .info {
   display: flex;

@@ -1,33 +1,34 @@
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { refs } from './js/refs';
-import { pixabayAPI } from './js/pixabayAPI';
+import PixabayAPI from './js/pixabayAPI';
 import { createMarkup } from './js/createMarkup';
-import debounce from 'lodash.debounce';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 const DEBOUNCE_DELAY = 300;
 // ==========================================================
-const pixabay = new pixabayAPI();
+const pixabay = new PixabayAPI();
 
 const searchPhoto = event => {
   event.preventDefault();
-  const {
-    elements: { query },
-  } = event.currentTarget;
-  const searchQuery = query.value.trim().toLowerCase();
+  const searchQuery = event.currentTarget.elements.query.value
+    .trim()
+    .toLowerCase();
   if (!searchQuery) {
     return Notify.failure('Ведіт дані для пошуку!!!!');
   }
-  pixabay.getFotos(searchQuery).then(({ hits }) => {
-    const markup = createMarkup(hits);
-    refs.list.insertAdjacentHTML('afterbegin', markup);
+  pixabay.getFotos(searchQuery).then(({ hits, totalHits }) => {
+    Notify.success(`Ура! Ми знайшли ${totalHits} зображення.`);
+    createMarkup(hits);
   });
 };
 refs.form.addEventListener('submit', searchPhoto);
 // ----------------------------------------------------------
 const onLoadMore = () => {
-  pixabayAPI.incrementPage();
+  pixabay.incrementPage();
 };
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
+
+// ----------------------------------------------------------
+
 // ==========================================================
 //todo Завдання - пошук зображень
 //! Створи фронтенд частину застосунку пошуку і перегляду зображень за ключовим словом. Додай оформлення елементів інтерфейсу. Подивись демо-відео роботи застосунку.

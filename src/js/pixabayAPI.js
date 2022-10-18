@@ -2,9 +2,10 @@ import axios from 'axios';
 import { params } from './params';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-export class pixabayAPI {
+export default class PixabayAPI {
   constructor() {
-    this.pageCounter = 1;
+    this.searchQuery = '';
+    this.page = 1;
   }
 
   getFotos(searchQuery) {
@@ -18,22 +19,24 @@ export class pixabayAPI {
       }
       return response.json();
     });
+    // .then(data => {
+    //   this.incrementPage();
+    // });
   }
 
-  setQuery(newQuery) {
-    params.set('q', newQuery);
+  get query() {
+    return this.searchQuery;
   }
 
-  getPageCounter() {
-    return this.pageCounter;
-  }
-
-  resetPage() {
-    params.set('page', '1');
+  set query(newQuery) {
+    this.searchQuery = newQuery;
   }
 
   incrementPage() {
-    this.pageCounter += 1;
-    params.set('page', this.pageCounter);
+    this.page += 1;
+  }
+
+  resetPage() {
+    this.page = 1;
   }
 }
