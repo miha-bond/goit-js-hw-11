@@ -1,34 +1,66 @@
 import { refs } from './js/refs';
 import PixabayAPI from './js/pixabayAPI';
+import { showLoadMoreBtn, hideLoadMoreBtn } from './js/load-mor-btn.js';
 import { createMarkup } from './js/createMarkup';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-const DEBOUNCE_DELAY = 300;
-// ==========================================================
 const pixabay = new PixabayAPI();
-
-const searchPhoto = event => {
-  event.preventDefault();
-  const searchQuery = event.currentTarget.elements.query.value
-    .trim()
-    .toLowerCase();
-  if (!searchQuery) {
-    return Notify.failure('Ведіт дані для пошуку!!!!');
+hideLoadMoreBtn();
+let totalHits;
+// ==========================================================
+function searchPhoto(evt) {
+  evt.preventDefault();
+  refs.list.innerHTML = '';
+  if (evt.currentTarget.elements.searchQuery.value === '') {
+    return;
   }
-  pixabay.getFotos(searchQuery).then(({ hits, totalHits }) => {
-    Notify.success(`Ура! Ми знайшли ${totalHits} зображення.`);
-    createMarkup(hits);
+  pixabay.query = evt.currentTarget.elements.searchQuery.value;
+  console.log(pixabay.query);
+
+  pixabay.resetPage();
+  pixabay.getFotos().then(data => {
+    totalHits = data.totalHits;
+
+    if (data.hits.length === 0) {
+      Notify.failure(
+        'Вибачте, немає зображень, які відповідають вашому пошуковому запиту. Будь ласка спробуйте ще раз.'
+      );
+      return;
+    } else {
+      Notify.success(`Eра! По вашому запиту ${totalHits} зображень!`);
+      createMarkup(data.hits);
+    }
+    showLoadMoreBtn();
   });
-};
+}
+// ----------------------------------------------------------
+
+function onLoadMore(evt) {
+  evt.preventDefault();
+  if (pixabay.getPage() * 40 < totalHits) {
+    pixabay.getFotos().then(data => {
+      createMarkup(data.hits);
+      smoothScroll();
+    });
+  } else {
+    Notify.info(`Ви досягли кінця результатів пошуку.`);
+    hideLoadMoreBtn();
+  }
+}
+// ----------------------------------------------------------
+function smoothScroll() {
+  const { height: cardHeight } = document
+    .querySelector('.js-gallery')
+    .firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2.5,
+    behavior: 'smooth',
+  });
+}
+// ----------------------------------------------------------
 refs.form.addEventListener('submit', searchPhoto);
-// ----------------------------------------------------------
-const onLoadMore = () => {
-  pixabay.incrementPage();
-};
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
-
-// ----------------------------------------------------------
-
 // ==========================================================
 //todo Завдання - пошук зображень
 //! Створи фронтенд частину застосунку пошуку і перегляду зображень за ключовим словом. Додай оформлення елементів інтерфейсу. Подивись демо-відео роботи застосунку.

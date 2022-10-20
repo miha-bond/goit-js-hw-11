@@ -41,17 +41,12 @@ export function createMarkup(hits) {
       }
     )
     .join('');
-  refs.list.insertAdjacentHTML('afterbegin', markup);
+  refs.list.insertAdjacentHTML('beforeend', markup);
   simpleLightbox();
 }
 
 function simpleLightbox() {
   let lightbox = new SimpleLightbox('.gallery a', {
-    captions: true,
-    captionType: 'attr',
-    captionsData: 'alt',
-    captionPosition: 'bottom',
-    captionDelay: 400,
     showCounter: true,
     enableKeyboard: true,
     docClose: true,

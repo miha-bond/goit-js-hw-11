@@ -1,42 +1,38 @@
 import axios from 'axios';
-import { params } from './params';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
+const API_KEY = '30550641-0f108504ecdb994905cf7394f';
 
 export default class PixabayAPI {
   constructor() {
-    this.searchQuery = '';
+    this.serchQuery = '';
     this.page = 1;
   }
 
-  getFotos(searchQuery) {
-    const baseURL = 'https://pixabay.com/api/';
-    const body = params.toString();
-    const URL = `${baseURL}?&${body}${searchQuery}`;
-    console.log(URL);
-    return fetch(URL).then(response => {
-      if (!response.ok) {
-        throw new Error(response.status);
-      }
-      return response.json();
-    });
-    // .then(data => {
-    //   this.incrementPage();
-    // });
-  }
-
-  get query() {
-    return this.searchQuery;
-  }
-
-  set query(newQuery) {
-    this.searchQuery = newQuery;
+  async getFotos() {
+    return await axios
+      .get(
+        `https://pixabay.com/api/?key=${API_KEY}&q=${this.serchQuery}&image_type=photo&orientation=horizontal$safesearch=true&page=${this.page}&per_page=40`
+      )
+      .then(({ data }) => {
+        this.incrementPage();
+        return data;
+      });
   }
 
   incrementPage() {
     this.page += 1;
   }
-
   resetPage() {
     this.page = 1;
+  }
+
+  getPage() {
+    return this.page;
+  }
+
+  get query() {
+    return this.serchQuery;
+  }
+  set query(newQuery) {
+    this.serchQuery = newQuery;
   }
 }
