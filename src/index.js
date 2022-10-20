@@ -35,7 +35,6 @@ function searchPhoto(evt) {
   });
 }
 // ----------------------------------------------------------
-
 function onLoadMore(evt) {
   evt.preventDefault();
   if (pixabay.getPage() * 40 < totalHits) {
@@ -55,7 +54,7 @@ function smoothScroll() {
     .firstElementChild.getBoundingClientRect();
 
   window.scrollBy({
-    top: cardHeight * 2.5,
+    top: cardHeight * 2.7,
     behavior: 'smooth',
   });
 }
