@@ -25,6 +25,7 @@ function searchPhoto(evt) {
       Notify.failure(
         'Вибачте, немає зображень, які відповідають вашому пошуковому запиту. Будь ласка спробуйте ще раз.'
       );
+      hideLoadMoreBtn();
       return;
     } else {
       Notify.success(`Eра! По вашому запиту ${totalHits} зображень!`);
