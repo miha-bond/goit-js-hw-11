@@ -3,6 +3,14 @@ import PixabayAPI from './js/pixabayAPI';
 import { showLoadMoreBtn, hideLoadMoreBtn } from './js/load-mor-btn.js';
 import { createMarkup } from './js/createMarkup';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { Loading } from 'notiflix/build/notiflix-loading-aio';
+
+// Loading.standard({
+//   clickToClose: true,
+//   svgSize: '150px',
+// });
+
+// Loading.remove();
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 const pixabay = new PixabayAPI();
 hideLoadMoreBtn();
@@ -20,7 +28,9 @@ function searchPhoto(evt) {
   pixabay.resetPage();
   pixabay.getFotos().then(data => {
     totalHits = data.totalHits;
-
+    Loading.standard({
+      svgSize: '150px',
+    });
     if (data.hits.length === 0) {
       Notify.failure(
         'Вибачте, немає зображень, які відповідають вашому пошуковому запиту. Будь ласка спробуйте ще раз.'
@@ -32,12 +42,16 @@ function searchPhoto(evt) {
       createMarkup(data.hits);
     }
     showLoadMoreBtn();
+    Loading.remove();
   });
 }
 // ----------------------------------------------------------
 function onLoadMore(evt) {
   evt.preventDefault();
   if (pixabay.getPage() * 40 < totalHits) {
+    Loading.standard({
+      svgSize: '150px',
+    });
     pixabay.getFotos().then(data => {
       createMarkup(data.hits);
       smoothScroll();
@@ -46,6 +60,7 @@ function onLoadMore(evt) {
     Notify.info(`Ви досягли кінця результатів пошуку.`);
     hideLoadMoreBtn();
   }
+  Loading.remove();
 }
 // ----------------------------------------------------------
 function smoothScroll() {
