@@ -1,6 +1,14 @@
 import { refs } from './refs';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+let lightbox = new SimpleLightbox('.gallery a', {
+  showCounter: true,
+  enableKeyboard: true,
+  docClose: true,
+  scrollZoom: true,
+  animationSlide: true,
+  maxZoom: 1.5,
+});
 export function createMarkup(hits) {
   const markup = hits
     .map(
@@ -42,20 +50,21 @@ export function createMarkup(hits) {
     )
     .join('');
   refs.list.insertAdjacentHTML('beforeend', markup);
-  simpleLightbox();
+  lightbox.refresh();
+  // simpleLightbox();
 }
 
-function simpleLightbox() {
-  let lightbox = new SimpleLightbox('.gallery a', {
-    showCounter: true,
-    enableKeyboard: true,
-    docClose: true,
-    scrollZoom: true,
-    animationSlide: true,
-    maxZoom: 1.5,
-  });
-  lightbox.refresh();
-}
+// function simpleLightbox() {
+//   let lightbox = new SimpleLightbox('.gallery a', {
+//     showCounter: true,
+//     enableKeyboard: true,
+//     docClose: true,
+//     scrollZoom: true,
+//     animationSlide: true,
+//     maxZoom: 1.5,
+//   });
+//   lightbox.refresh();
+// }
 //* webformatURL - посилання на маленьке зображення для списку карток.
 //* tags - рядок з описом зображення. Підійде для атрибуту alt.
 //* likes - кількість лайків.

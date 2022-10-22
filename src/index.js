@@ -23,7 +23,6 @@ function searchPhoto(evt) {
     return;
   }
   pixabay.query = evt.currentTarget.elements.searchQuery.value;
-  console.log(pixabay.query);
 
   pixabay.resetPage();
   pixabay.getFotos().then(data => {
@@ -38,26 +37,34 @@ function searchPhoto(evt) {
       hideLoadMoreBtn();
       return;
     } else {
-      Notify.success(`Eра! По вашому запиту ${totalHits} зображень!`);
+      Notify.success(`Ура! По вашому запиту ${totalHits} зображень!`);
       createMarkup(data.hits);
+      if (refs.list.childElementCount < 40) {
+        hideLoadMoreBtn();
+      } else {
+        showLoadMoreBtn();
+      }
     }
-    showLoadMoreBtn();
+
     Loading.remove();
   });
 }
 // ----------------------------------------------------------
 function onLoadMore(evt) {
   evt.preventDefault();
-  if (pixabay.getPage() * 40 < totalHits) {
-    Loading.standard({
-      svgSize: '150px',
-    });
+  const pageAmount = totalHits / 27 - pixabay.getPage();
+  console.log('click', pageAmount);
+  if (pageAmount > 0) {
     pixabay.getFotos().then(data => {
       createMarkup(data.hits);
       smoothScroll();
     });
-  } else {
-    Notify.info(`Ви досягли кінця результатів пошуку.`);
+    Loading.standard({
+      svgSize: '150px',
+    });
+  }
+  if (pageAmount < 0.5) {
+    Notify.info('Ви досягли кінця результатів пошуку.');
     hideLoadMoreBtn();
   }
   Loading.remove();
